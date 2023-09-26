@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Calculadora de IMC"),
+        title: Text("Calculadora de IMC v2.0"),
         centerTitle: true,
         backgroundColor: Colors.blueAccent,
         actions: <Widget>[
@@ -72,9 +72,25 @@ class _HomeState extends State<Home> {
               ),
               Padding(
                   padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: Container(
-                      height: 50.0,
-                      child: ElevatedButton(
+                  child:
+                      // Adicionando uma Row widget para colocar os dois botões
+                      Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceEvenly, // Alinhando os botões
+                    children: [
+                      // Criando um novo ElevatedButton widget com o texto "IMC Ideal" e a função _calcularIMCIdeal() como onPressed
+                      ElevatedButton(
+                        onPressed:
+                            _calcularIMCIdeal, // Chamando a função _calcularIMCIdeal()
+                        child: Text(
+                          "IMC Ideal",
+                          style: TextStyle(color: Colors.white, fontSize: 20.0),
+                        ),
+                        style:
+                            ElevatedButton.styleFrom(), // Estilizando o botão
+                      ),
+                      // Mantendo o botão "Calcular" original
+                      ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             _calcular();
@@ -84,11 +100,11 @@ class _HomeState extends State<Home> {
                           "Calcular",
                           style: TextStyle(color: Colors.white, fontSize: 20.0),
                         ),
-                        style: ElevatedButton.styleFrom(
-                            //  primary: Colors.blue,
-                            textStyle: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold)),
-                      ))),
+                        style:
+                            ElevatedButton.styleFrom(), // Estilizando o botão
+                      ),
+                    ],
+                  )),
             ], //<widget>[]
           ),
         ),
@@ -128,5 +144,43 @@ class _HomeState extends State<Home> {
 
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => Result(_imagem, _texto)));
+  }
+
+  void _calcularIMCIdeal() {
+    // Obtém a altura do controller
+    double altura = double.parse(alturaController.text); //?? 0.0;
+
+    //double peso = double.parse(pesoController.text);
+    //double altura = double.parse(alturaController.text);
+
+    // Calcula o IMC ideal na faixa de 18,5 a 24,9
+    double imcMinimo = 18.5;
+    double imcMaximo = 24.9;
+
+    // Calcula o peso ideal correspondente à altura inserida
+    double pesoMinimo = imcMinimo * (altura * altura);
+    double pesoMaximo = imcMaximo * (altura * altura);
+
+    // Exibe um diálogo com o IMC ideal
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("IMC Ideal"),
+          content: Text(
+            "Seu IMC ideal deve estar na faixa de $imcMinimo a $imcMaximo.\n"
+            "Isso significa que seu peso ideal deve estar entre ${pesoMinimo.toStringAsFixed(2)} kg e ${pesoMaximo.toStringAsFixed(2)} kg.",
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
