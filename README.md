@@ -1,6 +1,16 @@
-# flutter_application_imc
+# Aplicação de Cálculo do IMC v2.0
 
 A new Flutter project.
+
+# Objetivo da Aplicação
+
+Ao clicar no botão `Calcular`, será exibido uma nova tela com o índice do `IMC` com uma imagem respectiva.
+
+Foi implementado mais um botão de "Calcular IMC Ideal".
+
+Será exibido uma mensagem com a faixa do IMC Ideal correspondente ao peso e altura digitado ao clicar no botão `Calcular IMC Ideal`.
+
+Também será exibido a faixa do peso ideal de acordo com a altura digitada.
 
 ## Getting Started
 
